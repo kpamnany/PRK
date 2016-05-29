@@ -83,7 +83,12 @@ matrix:
     - os: osx
       env: PRK_TARGET=allupc
            UPC_IMPL=bupc
-           GASNET_CONDUIT=smp
+           GASNET_CONDUIT=pshm
+           PRK_FLAGS="-Wc,-O3"
+    - os: osx
+      env: PRK_TARGET=allupc
+           UPC_IMPL=bupc
+           GASNET_CONDUIT=pthreads
            PRK_FLAGS="-Wc,-O3"
     # GUPC will fail when libnuma cannot be acquired via apt
     - env: PRK_TARGET=allupc
@@ -155,7 +160,11 @@ env:
 #    UPC_IMPL=gupc
   - PRK_TARGET=allupc
     UPC_IMPL=bupc
-    GASNET_CONDUIT=smp
+    GASNET_CONDUIT=pshm
+    PRK_FLAGS="-Wc,-O3"
+  - PRK_TARGET=allupc
+    UPC_IMPL=bupc
+    GASNET_CONDUIT=pthreads
     PRK_FLAGS="-Wc,-O3"
   - PRK_TARGET=allupc
     UPC_IMPL=bupc

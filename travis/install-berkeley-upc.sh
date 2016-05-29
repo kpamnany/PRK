@@ -20,7 +20,7 @@ export BUPC_RELEASE=berkeley_upc-2.22.3
 os=`uname`
 case $os in
     Darwin)
-        BUPC_NO_PTHREADS="" #--disable-par" # --enable-pshm # configure test fails
+        BUPC_NO_PTHREADS="--disable-par"
         MPI_ROOT=/usr/local
         ;;
     Linux)
@@ -39,8 +39,12 @@ if [ ! -d "$BUPC_PREFIX" ]; then
     cd $BUPC_RELEASE
     mkdir build && cd build
     case "$GASNET_CONDUIT" in
-        smp)
-            ../configure --prefix=$BUPC_PREFIX $BUPC_NO_PTHREADS --enable-$GASNET_CONDUIT \
+        pthreads)
+            ../configure --prefix=$BUPC_PREFIX --enable-smp --enable-pthreads \
+                         $BUPC_NO_HPC_NETWORKS $BUPC_ONLY_X86_CPU $BUPC_VM_FRIENDLY
+            ;;
+        pshm)
+            ../configure --prefix=$BUPC_PREFIX --enable-smp --enable-pshm \
                          $BUPC_NO_HPC_NETWORKS $BUPC_ONLY_X86_CPU $BUPC_VM_FRIENDLY
             ;;
         udp)
