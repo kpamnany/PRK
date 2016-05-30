@@ -212,15 +212,7 @@ case "$PRK_TARGET" in
                 ;;
             bupc)
                 export UPC_ROOT=$TRAVIS_ROOT/bupc-$CC
-                # Compiler options
-                case "$GASNET_CONDUIT" in
-                    pthreads)
-                        echo "UPCC=\"$UPC_ROOT/bin/upcc -pthreads=$PRK_UPC_PROCS\"" >> common/make.defs
-                        ;;
-                    *)
-                        echo "UPCC=$UPC_ROOT/bin/upcc" >> common/make.defs
-                        ;;
-                esac
+                echo "UPCC=$UPC_ROOT/bin/upcc" >> common/make.defs
                 # Runtime options
                 # -N $nodes -n UPC threads -c $cores_per_node
                 # -localhost is only for UDP
@@ -247,7 +239,14 @@ case "$PRK_TARGET" in
                         export PRK_LAUNCHER="$UPC_ROOT/bin/upcrun -N 1 -n $PRK_UPC_PROCS -c $PRK_UPC_PROCS"
                         ;;
                 esac
-                make $PRK_TARGET default_opt_flags="-Wc,-O3"
+                case "$GASNET_CONDUIT" in
+                    pthreads)
+                        make $PRK_TARGET default_opt_flags="-Wc,-O3 -Wc,-pthreads=$PRK_UPC_PROCS"
+                        ;;
+                    *)
+                        make $PRK_TARGET default_opt_flags="-Wc,-O3"
+                        ;;
+                esac
                 ;;
         esac
         export PRK_TARGET_PATH=UPC
