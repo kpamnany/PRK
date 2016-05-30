@@ -40,11 +40,11 @@ if [ ! -d "$BUPC_PREFIX" ]; then
     mkdir build && cd build
     case "$GASNET_CONDUIT" in
         pthreads)
-            ../configure --prefix=$BUPC_PREFIX --enable-smp --enable-pthreads \
+            ../configure --prefix=$BUPC_PREFIX --enable-smp --enable-pthreads --disable-pshm \
                          $BUPC_NO_HPC_NETWORKS $BUPC_ONLY_X86_CPU $BUPC_VM_FRIENDLY
             ;;
         pshm)
-            ../configure --prefix=$BUPC_PREFIX --enable-smp --enable-pshm \
+            ../configure --prefix=$BUPC_PREFIX --enable-smp --enable-pshm --disable-pthreads \
                          $BUPC_NO_HPC_NETWORKS $BUPC_ONLY_X86_CPU $BUPC_VM_FRIENDLY
             ;;
         udp)
