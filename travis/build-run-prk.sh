@@ -239,14 +239,6 @@ case "$PRK_TARGET" in
                         export PRK_LAUNCHER="$UPC_ROOT/bin/upcrun -N 1 -n $PRK_UPC_PROCS -c $PRK_UPC_PROCS"
                         ;;
                 esac
-                case "$GASNET_CONDUIT" in
-                    pthreads)
-                        make $PRK_TARGET default_opt_flags="-Wc,-pthreads=$PRK_UPC_PROCS"
-                        ;;
-                    *)
-                        make $PRK_TARGET default_opt_flags="-Wc,-O3"
-                        ;;
-                esac
                 ;;
         esac
         export PRK_TARGET_PATH=UPC
