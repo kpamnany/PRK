@@ -241,7 +241,7 @@ case "$PRK_TARGET" in
                 esac
                 case "$GASNET_CONDUIT" in
                     pthreads)
-                        make $PRK_TARGET default_opt_flags="-Wc,-O3 -Wc,-pthreads=$PRK_UPC_PROCS"
+                        make $PRK_TARGET default_opt_flags="-Wc,-pthreads=$PRK_UPC_PROCS"
                         ;;
                     *)
                         make $PRK_TARGET default_opt_flags="-Wc,-O3"
