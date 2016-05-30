@@ -89,7 +89,7 @@ matrix:
       env: PRK_TARGET=allupc
            UPC_IMPL=bupc
            GASNET_CONDUIT=pthreads
-           PRK_FLAGS="-Wc,-O3"
+           PRK_FLAGS="-Wc,-O3 -Wc,-pthreads"
     # GUPC will fail when libnuma cannot be acquired via apt
     - env: PRK_TARGET=allupc
     # we have lots of Grappa issues...
