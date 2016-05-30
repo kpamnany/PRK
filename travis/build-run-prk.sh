@@ -212,7 +212,16 @@ case "$PRK_TARGET" in
                 ;;
             bupc)
                 export UPC_ROOT=$TRAVIS_ROOT/bupc-$CC
-                echo "UPCC=$UPC_ROOT/bin/upcc" >> common/make.defs
+                # Compiler options
+                case "$GASNET_CONDUIT" in
+                    pthreads)
+                        echo "UPCC=\"$UPC_ROOT/bin/upcc -pthreads=$PRK_UPC_PROCS\"" >> common/make.defs
+                        ;;
+                    *)
+                        echo "UPCC=$UPC_ROOT/bin/upcc" >> common/make.defs
+                        ;;
+                esac
+                # Runtime options
                 # -N $nodes -n UPC threads -c $cores_per_node
                 # -localhost is only for UDP
                 case "$GASNET_CONDUIT" in
@@ -230,6 +239,9 @@ case "$PRK_TARGET" in
                         # so that upcrun can find mpirun - why it doesn't cache this from build is beyond me
                         export PATH="$TRAVIS_ROOT/$MPI_IMPL/bin:$PATH"
                         export PRK_LAUNCHER="$UPC_ROOT/bin/upcrun -N 1 -n $PRK_UPC_PROCS -c $PRK_UPC_PROCS"
+                        ;;
+                    pthreads)
+                        export PRK_LAUNCHER="$UPC_ROOT/bin/upcrun -N 1 -n $PRK_UPC_PROCS -c $PRK_UPC_PROCS -pthreads=$PRK_UPC_PROCS"
                         ;;
                     *)
                         export PRK_LAUNCHER="$UPC_ROOT/bin/upcrun -N 1 -n $PRK_UPC_PROCS -c $PRK_UPC_PROCS"
